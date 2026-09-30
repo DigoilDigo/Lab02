@@ -1,11 +1,31 @@
+import csv
+
 def carica_da_file(file_path):
-    """Carica le foto dal file, creando un nuovo anno ogni volta che compare per la prima volta"""
-    # TODO
+    album={}
+    with open(file_path) as o:
+        reader=csv.DictReader(o)
+        for row in reader:
+            codice = row["codice"]
+            album[codice]={
+                "titolo" : row["titolo"],
+                "autore" : row["autore"],
+                "mese" : int(row["mese"]),
+                "anno" : int(row["anno"])
+            }
+
+
+    return album
 
 
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
     """Aggiunge una foto all'album, creando l'anno al volo se non è ancora presente"""
-    # TODO
+    album[codice]={
+        "titolo": titolo,
+        "autore": autore,
+        "mese": mese,
+        "anno": anno
+    }
+    return
 
 
 def cerca_foto(album, codice):
@@ -16,7 +36,8 @@ def cerca_foto(album, codice):
 def elenco_foto_anno_per_titolo(album, anno):
     """Ordina i titoli delle foto di un dato anno in ordine alfabetico"""
     # TODO
-
+def stampa(album):
+    print(album)
 
 def main():
     album = []
@@ -92,6 +113,7 @@ def main():
 
         elif scelta == "5":
             print("Uscita dal programma...")
+            stampa(album)
             break
         else:
             print("Opzione non valida. Riprova.")
