@@ -1,43 +1,51 @@
 import csv
 
+
 def carica_da_file(file_path):
-    album={}
+    album = {}
     with open(file_path) as o:
-        reader=csv.DictReader(o)
+        reader = csv.DictReader(o, skipinitialspace=True)
         for row in reader:
             codice = row["codice"]
-            album[codice]={
-                "titolo" : row["titolo"],
-                "autore" : row["autore"],
-                "mese" : int(row["mese"]),
-                "anno" : int(row["anno"])
+            album[codice] = {
+                "titolo": row["titolo"],
+                "autore": row["autore"],
+                "mese": int(row["mese"]),
+                "anno": int(row["anno"])
             }
-
-
     return album
 
 
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
     """Aggiunge una foto all'album, creando l'anno al volo se non è ancora presente"""
-    album[codice]={
+    album[codice] = {
         "titolo": titolo,
         "autore": autore,
         "mese": mese,
         "anno": anno
     }
-    return
+    return album[codice]
 
 
 def cerca_foto(album, codice):
-    """Cerca una foto nell'album dato il codice"""
-    # TODO
+    return album.get(codice, None)
 
 
 def elenco_foto_anno_per_titolo(album, anno):
-    """Ordina i titoli delle foto di un dato anno in ordine alfabetico"""
-    # TODO
+    # Estraggo i titoli delle foto che corrispondono all'anno cercato
+    titoli = [foto["titolo"] for foto in album.values() if foto["anno"] == anno]
+
+    # Se non ci sono foto per quell'anno, restituisce niente
+    if not titoli:
+        return None
+
+    # Restituisce la lista dei titoli ordinati alfabeticamente
+    return sorted(titoli)
+
+
 def stampa(album):
     print(album)
+
 
 def main():
     album = []
